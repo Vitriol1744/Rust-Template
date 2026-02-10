@@ -4,9 +4,9 @@
  *
  * SPDX-License-Identifier: GPL-3
  */
-use limine::request::MemoryMapRequest;
-use limine::memory_map::EntryType;
 use super::bitmap::Bitmap;
+use limine::memory_map::EntryType;
+use limine::request::MemoryMapRequest;
 
 pub struct BitmapAllocator<'a> {
     page_bitmap: Bitmap<'a>,
@@ -60,11 +60,8 @@ impl<'a> BitmapAllocator<'a> {
         let bitmap_entry_count = self.usable_memory_top / page_size;
         let bitmap_size_bytes = (bitmap_entry_count + 7) / 8;
 
-        unsafe {
-            self.page_bitmap = Bitmap::from_raw(bitmap_ptr, bitmap_size_bytes);
-        }
-
-        self.page_bitmap.set_all(0xFF);
+        self.page_bitmap = Bitmap::from_raw(bitmap_ptr, bitmap_size_bytes);
+        self.page_bitmap.set_all(0xff);
 
         for entry in entries {
             if entry.entry_type != EntryType::USABLE {

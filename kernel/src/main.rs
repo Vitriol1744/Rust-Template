@@ -7,7 +7,9 @@ pub mod pmm;
 use core::arch::asm;
 
 use limine::BaseRevision;
-use limine::request::{FramebufferRequest, RequestsEndMarker, RequestsStartMarker};
+use limine::request::{
+    FramebufferRequest, MemoryMapRequest, RequestsEndMarker, RequestsStartMarker,
+};
 
 /// Sets the base revision to the latest revision supported by the crate.
 /// See specification for further info.
@@ -20,6 +22,10 @@ static BASE_REVISION: BaseRevision = BaseRevision::new();
 #[used]
 #[unsafe(link_section = ".requests")]
 static FRAMEBUFFER_REQUEST: FramebufferRequest = FramebufferRequest::new();
+
+#[used]
+#[unsafe(link_section = ".requests")]
+static MEMORY_MAP_REQUEST: MemoryMapRequest = MemoryMapRequest::new();
 
 /// Define the stand and end markers for Limine requests.
 #[used]
